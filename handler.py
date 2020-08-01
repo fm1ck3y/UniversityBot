@@ -141,12 +141,10 @@ def find_change_position():
         for link_ngtu in user.get_user_links_ngtu():
             try:
                 string_format,position_with_original = GetInfoForEnrolle(link_ngtu,user.full_name,True)
-                if old_positions[link_ngtu] != position_with_original:
+                if old_positions[link_ngtu] != str(position_with_original):
                     send_message("❗❗ Позиция изменилась!\n" + string_format[0:-2] + "\nСтарая позиция: " + str(old_positions[link_ngtu]) + "\n❗❗",user)
                     user.change_position_ngtu(link_ngtu,position_with_original)
             except: pass
-
-
 
 
 Thread(target= ThreadSchedule).start()
