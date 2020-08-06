@@ -12,6 +12,8 @@ class User(BaseModel):
     id = IntegerField(null= False)
     full_name = CharField(default= '')
     link_nngu = CharField(default= '')
+    # faculties nngu (for correct parsing)
+    fac_nngu = CharField(default='')
     link_ngtu =CharField(default='')
     last_keyboard = CharField(default='')
     last_command = CharField(default='')
@@ -22,6 +24,7 @@ class User(BaseModel):
         db_table = "users"
         order_by = ('created_at')
 
+    # ngtu
     def get_user_links_ngtu(self):
         links = [x for x in self.link_ngtu.split(";")]
         if links == ['']: return []
@@ -68,6 +71,46 @@ class User(BaseModel):
         this_positions = self.old_position_link_ngtu()
         this_positions[link] = new_pos
         self.position_ngtu = ';'.join(str(x) for x in this_positions.values())
+        self.save()
+
+    # nngu
+    def get_user_facs_nngu(self):
+        facs = [x for x in self.link_nngu.split(";")]
+        if facs == ['']: return []
+        return facs
+
+    def add_link_nngu(self,link, facs):
+        self.link_nngu = link
+        self.add_position_nngu()
+        self.fac_nngu = ';'.join(x for x in facs)
+        self.save()
+
+    def delete_link_nngu(self,link):
+        self.delete_position_nngu(link)
+        self.link_nngu = ''
+        self.position_nngu = ''
+        self.save()
+
+    def add_position_nngu(self):
+        this_position = self.position_nngu.split(';')
+        if this_position == ['']: this_position = []
+        this_position.append(0)
+        self.position_nngu = ';'.join(str(x) for x in this_position)
+        self.save()
+
+    def old_position_nngu(self):
+        this_fac = self.get_user_facs_nngu()
+        this_positions = [x for x in self.position_nngu.split(";")]
+        if this_positions == ['']: this_positions = []
+        this_dict = {}
+        for i, fac in enumerate(this_fac):
+            this_dict[fac] = this_positions[i]
+        return this_dict
+
+    def change_position_nngu(self,fac,new_pos):
+        this_positions = self.old_position_nngu()
+        this_positions[fac] = new_pos
+        self.position_nngu = ';'.join(str(x) for x in this_positions.values())
         self.save()
 
     def __str__(self):
@@ -121,7 +164,8 @@ def add_link_nngu(new_link,old_link):
         if length == 1:
             this = Link.select().where(Link.link == old_link).get()
             this.delete_instance()
-    except: pass
+    except:
+        pass
     this_link = Link.create(link = new_link)
     add_new_link(this_link)
 
@@ -138,5 +182,6 @@ def add_link_ngtu(link):
         fac,direction = GetFacAndDirection(link)
         this_link = Link.create(link = link,name_fac = fac,name_direction = direction)
         add_new_link(this_link)
+
 
 initialize()
