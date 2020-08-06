@@ -145,3 +145,8 @@ def find_change_position():
                     send_message("❗❗ Позиция изменилась!\n" + string_format[0:-2] + "\nСтарая позиция: " + str(old_positions[link_ngtu]) + "\n❗❗",user)
                     user.change_position_ngtu(link_ngtu,position_with_original)
             except: pass
+
+            
+            
+Thread(target= ThreadSchedule).start()
+handler_message()
