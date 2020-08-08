@@ -142,7 +142,8 @@ def find_change_position():
             try:
                 string_format,position_with_original = GetInfoForEnrolle(link_ngtu,user.full_name,True)
                 if old_positions[link_ngtu] != str(position_with_original):
-                    send_message("❗❗ Позиция изменилась!\n" + string_format[0:-2] + "\nСтарая позиция: " + str(old_positions[link_ngtu]) + "\n❗❗",user)
+                    if user.notification:
+                        send_message("❗❗ Позиция изменилась!\n" + string_format[0:-2] + "\nСтарая позиция: " + str(old_positions[link_ngtu]) + "\n❗❗",user)
                     user.change_position_ngtu(link_ngtu,position_with_original)
             except: pass
 
@@ -153,7 +154,8 @@ def find_change_position():
                 string_format = "Институт, факультет : {fac}\n" \
                        "Место с согласием : {position_with_original}\n\n".format(fac=fac, position_with_original=position_with_original)
                 if old_positions[fac_nngu] != str(position_with_original):
-                    send_message("❗❗ Позиция изменилась!\n" + string_format[0:-2] + "\nСтарая позиция: " + str(old_positions[fac]) + "\n❗❗",user)
+                    if user.notification:
+                        send_message("❗❗ Позиция изменилась!\n" + string_format[0:-2] + "\nСтарая позиция: " + str(old_positions[fac]) + "\n❗❗",user)
                     user.change_position_nngu(fac_nngu, position_with_original)
             except:
                 pass
