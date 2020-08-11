@@ -156,11 +156,11 @@ def find_change_position():
                 except: pass
 
             old_positions = user.old_position_nngu()
-            for fac_nngu in user.get_user_facs_nngu():
+            for i, fac_nngu in enumerate(user.get_user_facs_nngu()):
                 try:
                     temp = GetEnroolee(user.link_nngu)
-                    fac = temp['fac']
-                    position_with_original = temp['with_original']
+                    fac = temp[i]['fac']
+                    position_with_original = temp[i]['with_original']
                     del temp
                     string_format = "Институт, факультет : {fac}\n" \
                                     "Место с согласием : {position_with_original}\n\n".format(fac=fac,
