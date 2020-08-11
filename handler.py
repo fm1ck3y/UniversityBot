@@ -28,6 +28,8 @@ def handler_command(message : VkBotMessageEvent):
         link = text
     if text == '🏛  Политех им.Алексеева':
         send_message("Меню политехнического института имени Алексеева",user,ngtu_keyboard())
+    elif text.lower() == 'начать':
+        send_message('https://vk.com/universitybotnn?z=video-184617412_456239018%2Fdc8804cc6313b6198d%2Fpl_wall_-184617412',user,main_keyboard(user))
     elif text == '🏣 Университет Лобачевского':
         send_message('Меню Университета Лобачевского',user,nngu_keyboard())
     elif text == '👦 Полное имя (ФИО)':
