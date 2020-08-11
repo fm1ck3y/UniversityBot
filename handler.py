@@ -135,7 +135,7 @@ def ThreadSchedule():
     update_links()
     find_change_position()
     schedule.every().minute.do(update_links)
-    #schedule.every().minute.do(find_change_position)
+    schedule.every().minute.do(find_change_position)
     while True:
         schedule.run_pending()
         time.sleep(1)
