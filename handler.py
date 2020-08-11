@@ -158,12 +158,17 @@ def find_change_position():
             old_positions = user.old_position_nngu()
             for fac_nngu in user.get_user_facs_nngu():
                 try:
-                    id, fac, total, position_with_original, places = GetEnroolee(user.link_nngu)
+                    temp = GetEnroolee(user.link_nngu)
+                    fac = temp['fac']
+                    position_with_original = temp['with_original']
+                    del temp
                     string_format = "Институт, факультет : {fac}\n" \
-                           "Место с согласием : {position_with_original}\n\n".format(fac=fac, position_with_original=position_with_original)
+                                    "Место с согласием : {position_with_original}\n\n".format(fac=fac,
+                                                                                              position_with_original=position_with_original)
                     if old_positions[fac_nngu] != str(position_with_original):
                         if user.notification:
-                            send_message("❗❗ Позиция изменилась!\n" + string_format[0:-2] + "\nСтарая позиция: " + str(old_positions[fac]) + "\n❗❗",user)
+                            send_message("❗❗ Позиция изменилась!\n" + string_format[0:-2] + "\nСтарая позиция: " + str(
+                                old_positions[fac]) + "\n❗❗", user)
                         user.change_position_nngu(fac_nngu, position_with_original)
                 except:
                     pass
